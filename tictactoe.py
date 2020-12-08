@@ -8,6 +8,7 @@ X = "X"
 O = "O"
 EMPTY = None
 
+
 def initial_state():
     """
     Returns starting state of the board.
@@ -28,11 +29,8 @@ def player(board):
         count_o += row.count(O)
     if count_x == count_o:
         return X
-        # raise NotImplementedError
     else:
         return O
-
-    # raise NotImplementedError
 
 
 def actions(board):
@@ -46,34 +44,25 @@ def actions(board):
                 act = (i, j)
                 actions.add(act)
     return actions
-    # raise NotImplementedError
 
 
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    update_value = EMPTY
     new_board = []
 
-    if player(board) == X:
-        update_value = X
-    else:
-        update_value = O
     for row in board:
         new_board.append(row[:])
-    new_board[action[0]][action[1]] = update_value
+    new_board[action[0]][action[1]] = player(board)
 
     return new_board
-
-    # raise NotImplementedError
 
 
 def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-
     for row in board:
         if row.count(X) == len(row):
             return X
@@ -109,17 +98,15 @@ def winner(board):
     col_win_o = 0
     num = len(board)
     for i in range(num):
-        if board[i][num-1-i] == X:
+        if board[i][num - 1 - i] == X:
             col_win_x += 1
-        if board[i][num-1-i] == O:
+        if board[i][num - 1 - i] == O:
             col_win_o += 1
     if col_win_x == len(board):
         return X
     if col_win_o == len(board):
         return O
     return None
-
-    # raise NotImplementedError
 
 
 def terminal(board):
@@ -133,7 +120,6 @@ def terminal(board):
         return False
     else:
         return True
-    # raise NotImplementedError
 
 
 def utility(board):
@@ -168,18 +154,19 @@ def minimax(board):
 
     if player(board) == X:
         index = state_value.index(max(state_value))
-        print("X States and its corresponding values are:")
-        print(state_value)
-        print(state_location)
+        # print("X States and its corresponding values are:")
+        # print(state_value)
+        # print(state_location)
         return (state_location[index])
 
     if player(board) == O:
         index = state_value.index(min(state_value))
-        print("O Sates and its corresponding values are:")
-        print(state_value)
-        print(state_location)
+        # print("O Sates and its corresponding values are:")
+        # print(state_value)
+        # print(state_location)
 
         return (state_location[index])
+
 
 def max_value(board):
     v = -math.inf
@@ -193,11 +180,11 @@ def max_value(board):
                 break
     return v
 
+
 def min_value(board):
     v = math.inf
     if terminal(board):
         v = utility(board)
-
     else:
         for action in actions(board):
             v = min(v, max_value(result(board, action)))
@@ -205,4 +192,3 @@ def min_value(board):
             if v == -1:
                 break
     return v
-
