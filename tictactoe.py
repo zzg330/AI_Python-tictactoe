@@ -8,7 +8,6 @@ X = "X"
 O = "O"
 EMPTY = None
 
-
 def initial_state():
     """
     Returns starting state of the board.
@@ -166,6 +165,7 @@ def minimax(board):
             max_value_state = max_value(result(board, action))
             state_value.append(max_value_state)
             state_location.append(action)
+
     if player(board) == X:
         index = state_value.index(max(state_value))
         print("X States and its corresponding values are:")
@@ -182,19 +182,18 @@ def minimax(board):
         return (state_location[index])
 
 def max_value(board):
-
     v = -math.inf
     if terminal(board):
         v = utility(board)
     else:
         for action in actions(board):
             v = max(v, min_value(result(board, action)))
-            for row in result(board, action):
-                print(row)
+            # Interrupt the loop when finding the maximum one, which can improve the performance (8736/56730)
+            if v == 1:
+                break
     return v
 
 def min_value(board):
-
     v = math.inf
     if terminal(board):
         v = utility(board)
@@ -202,7 +201,8 @@ def min_value(board):
     else:
         for action in actions(board):
             v = min(v, max_value(result(board, action)))
-            for row in result(board, action):
-                print(row)
+            # Interrupt the loop when finding the minimum one, which can improve the performance (8736/56730)
+            if v == -1:
+                break
     return v
 
