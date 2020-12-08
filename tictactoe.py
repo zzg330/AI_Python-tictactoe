@@ -43,8 +43,8 @@ def actions(board):
             if col == EMPTY:
                 act = (i, j)
                 actions.add(act)
+    # sorted(actions) can put (0,0) as the first element in the returned set.
     return actions
-
 
 def result(board, action):
     """
@@ -132,7 +132,6 @@ def utility(board):
         return 1
     else:
         return -1
-    # raise NotImplementedError
 
 
 def minimax(board):
@@ -141,7 +140,6 @@ def minimax(board):
     """
     state_value = []
     state_location = []
-
     for action in actions(board):
         if player(board) == X:
             min_value_state = min_value(result(board, action))
